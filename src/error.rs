@@ -3,7 +3,7 @@ use std::fmt::Display;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-#[derive(thiserror::Error, Debug, Clone, PartialEq)]
+#[derive(thiserror::Error, Debug)]
 pub enum Error {
   #[error("Serialize error: {0}")]
   Ser(String),
@@ -15,6 +15,10 @@ pub enum Error {
   IOError(#[from] std::io::Error),
   #[error("Int conversion error")]
   IntConversionError(#[from] std::num::TryFromIntError),
+  #[error("This type cannot be used for reply")]
+  InvalidTypeForReplyError,
+  #[error("Unknown size is not supported")]
+  UnknownSizeError,
 }
 
 impl ser::Error for Error {
