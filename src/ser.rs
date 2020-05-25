@@ -2,7 +2,7 @@ use crate::error::{Error, Result};
 use serde::{ser, Serialize};
 use std::io::Write;
 
-pub struct Serializer {
+struct Serializer {
   command: bool,
   output: Vec<u8>,
 }
@@ -165,7 +165,7 @@ impl<'a> ser::Serializer for &'a mut Serializer {
 
   fn serialize_unit_variant(self, _: &'static str, _: u32, variant: &'static str) -> Result<()> {
     if !self.command {
-      return Err(Error::InvalidTypeForReplyError);
+      return Err(Error::InvalidTypeForReply);
     }
 
     self.output.write_all(b"*1\r\n")?;
@@ -193,7 +193,7 @@ impl<'a> ser::Serializer for &'a mut Serializer {
     T: Serialize + ?Sized,
   {
     if !self.command {
-      return Err(Error::InvalidTypeForReplyError);
+      return Err(Error::InvalidTypeForReply);
     }
 
     self.output.write_all(b"*2\r\n")?;
@@ -221,7 +221,7 @@ impl<'a> ser::Serializer for &'a mut Serializer {
 
         Ok(self)
       } else {
-        Err(Error::UnknownSizeError)
+        Err(Error::UnknownSize)
       }
     }
   }

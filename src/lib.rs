@@ -2,6 +2,6 @@ mod de;
 mod error;
 mod ser;
 
-//pub use de::{from_reader, Deserializer};
+pub use de::{read_command, read_reply};
 pub use error::{Error, Result};
-pub use ser::{write_command, write_reply, Serializer};
+pub use ser::{write_command, write_reply};

@@ -12,13 +12,19 @@ pub enum Error {
   #[error("This type is not supported in RESP")]
   UnsupportedType,
   #[error("I/O error")]
-  IOError(#[from] std::io::Error),
+  IO(#[from] std::io::Error),
   #[error("Int conversion error")]
-  IntConversionError(#[from] std::num::TryFromIntError),
+  IntConversion(#[from] std::num::TryFromIntError),
+  #[error("Int parsing error")]
+  IntParsing(#[from] std::num::ParseIntError),
+  #[error("Wrong type for command")]
+  InvalidTypeForCommand,
   #[error("This type cannot be used for reply")]
-  InvalidTypeForReplyError,
+  InvalidTypeForReply,
   #[error("Unknown size is not supported")]
-  UnknownSizeError,
+  UnknownSize,
+  #[error("Invalid size for command array")]
+  InvalidSizeForCommandArray,
 }
 
 impl ser::Error for Error {
